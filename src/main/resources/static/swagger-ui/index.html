@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="SwaggerUI"/>
+    <meta name="robots" content="noindex, nofollow"/>
+    <title>SwaggerUI</title>
+    <link rel="stylesheet" href="/webjars/swagger-ui/5.20.1/swagger-ui.css"/>
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="/webjars/swagger-ui/5.20.1/swagger-ui-bundle.js" crossorigin></script>
+<script src="/webjars/swagger-ui/5.20.1/swagger-ui-standalone-preset.js" crossorigin></script>
+<script>
+    window.onload = function () {
+        window.ui = SwaggerUIBundle({
+            urls: [
+                {url: '/swagger-ui/apis/authentication-api.yaml', name: 'authentication-api'},
+                {url: '/swagger-ui/apis/account-api.yaml', name: 'account-api'},
+                {url: '/swagger-ui/apis/geography-api.yaml', name: 'geography-api'},
+                {url: '/swagger-ui/apis/equipment-api.yaml', name: 'equipment-api'},
+            ],
+            'urls.primaryName': 'External-API',
+            presets: [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset],
+            layout: 'StandaloneLayout',
+            dom_id: '#swagger-ui',
+            oauth2RedirectUrl: window.location + "webjars/swagger-ui/5.20.1/oauth2-redirect.html"
+        });
+
+        window.ui.initOAuth({
+            clientId: "tregusto-client-id",
+            usePkceWithAuthorizationCodeGrant: true
+        });
+
+    }
+</script>
+</body>
+</html>

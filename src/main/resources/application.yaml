@@ -1,1 +1,7 @@
-spring.application.name=tregusto
+spring:
+
+##################################################
+# Application Settings
+##################################################
+  application:
+    name: Tregusto
