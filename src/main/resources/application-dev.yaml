@@ -12,6 +12,9 @@ application:
     realm: ${keycloak_realm}
     admin-client-id: ${keycloak_admin-client_id}
     client-secret: ${keycloak_client_secret}
+  authentication:
+    api-allowed-origins:
+      - "http://localhost:3000"
 
 spring:
   ##################################################
@@ -25,7 +28,7 @@ spring:
   # Database ORM Configuration
   ##################################################
   datasource:
-    url: jdbc:postgresql://localhost:5433/tregusto
+    url: jdbc:postgresql://localhost:5434/tregusto
     username: tregusto
     password: password
     driver-class-name: org.postgresql.Driver

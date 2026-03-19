@@ -34,8 +34,10 @@
         <mapstruct.version>1.6.3</mapstruct.version>
         <keycloak-admin-client.version>26.0.8</keycloak-admin-client.version>
         <openapi-generator-maven-plugin.version>7.17.0</openapi-generator-maven-plugin.version>
-        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+        <jackson-databind-nullable.version>0.2.9</jackson-databind-nullable.version>
         <liquibase.version>5.0.2</liquibase.version>
+        <sonar.version>3.11.0.3922</sonar.version>
+        <jacoco.version>0.8.14</jacoco.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,6 +56,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-actuator</artifactId>
+            <version>${spring-modulith.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.modulith</groupId>
@@ -92,6 +104,13 @@
             <version>${spring-modulith.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.modulith</groupId>
+            <artifactId>spring-modulith-observability</artifactId>
+            <version>${spring-modulith.version}</version>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-docker-compose</artifactId>
@@ -121,6 +140,11 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>${liquibase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -163,35 +187,6 @@
                                 </apiPackage>
                                 <modelPackage>
                                     fr.gopartner.tregusto.authentication.api.generated
-                                </modelPackage>
-                                <delegatePattern>false</delegatePattern>
-                                <useSpringBoot3>true</useSpringBoot3>
-                                <interfaceOnly>true</interfaceOnly>
-                                <documentationProvider>source</documentationProvider>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>account-api</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/static/swagger-ui/apis/account-api.yaml
-                            </inputSpec>
-                            <output>${project.build.directory}/generated-sources/account-api</output>
-                            <generatorName>spring</generatorName>
-                            <addCompileSourceRoot>true</addCompileSourceRoot>
-                            <modelNameSuffix>DTO</modelNameSuffix>
-
-                            <configOptions>
-                                <useTags>true</useTags>
-                                <apiPackage>
-                                    fr.gopartner.tregusto.account.api.generated
-                                </apiPackage>
-                                <modelPackage>
-                                    fr.gopartner.tregusto.account.api.generated
                                 </modelPackage>
                                 <delegatePattern>false</delegatePattern>
                                 <useSpringBoot3>true</useSpringBoot3>
@@ -247,9 +242,14 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar.version}</version>
+            </plugin>
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.14</version>
+                <version>${jacoco.version}</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -266,14 +266,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.11.0.3922</version>
-            </plugin>
-
         </plugins>
-
     </build>
 
 </project>

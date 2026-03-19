@@ -1,7 +1,13 @@
 ##################################################
-# H2 Database Configuration
+# Common configuration
 ##################################################
+keycloak_base_url: http://localhost:9090
+keycloak_realm: Tregusto
+
 spring:
+  ##################################################
+  # H2 Database Configuration
+  ##################################################
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
@@ -19,9 +25,28 @@ spring:
   liquibase:
     enabled: false
 
+  ##################################################
+  # Keycloak / OAuth2 Configuration
+  ##################################################
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          principal-claim-name: email
+          issuer-uri: ${keycloak_base_url}/realms/${keycloak_realm}
+          jwk-set-uri: ${keycloak_base_url}/realms/${keycloak_realm}/protocol/openid-connect/certs
+
 ##################################################
 # Logging Configuration for Tests
 ##################################################
 logging:
   level:
     org.springframework.modulith: DEBUG
+
+##################################################
+# Authentication Configuration for Tests
+##################################################
+application:
+  authentication:
+    api-allowed-origins:
+      - http://localhost:*
