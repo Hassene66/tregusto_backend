@@ -6,10 +6,6 @@ keycloak_realm: Tregusto
 keycloak_admin-client_id: tregusto-client-id
 keycloak_client_secret: 9B1slGDa7u35LVFEEOUOzNx7Zl6bzbmn
 
-
-##################################################
-# General Application Configuration
-##################################################
 application:
   keycloak:
     base-url: ${keycloak_base_url}
@@ -54,3 +50,5 @@ spring:
           issuer-uri: ${keycloak_base_url}/realms/${keycloak_realm}
           jwk-set-uri: ${keycloak_base_url}/realms/${keycloak_realm}/protocol/openid-connect/certs
 
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
