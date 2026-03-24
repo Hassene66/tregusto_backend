@@ -3,8 +3,7 @@ spring:
 
   application:
     name: Tregusto
-  server:
-    port: 8082
+
 
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
@@ -67,4 +66,5 @@ application:
     realm: ${KC_REALM}
     admin-client-id: ${KC_ADMIN_CLIENT_ID:agriloc}
     client-secret: ${kc_client_secret}
-
+server:
+  port: 8082
