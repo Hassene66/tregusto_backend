@@ -3,8 +3,8 @@ spring:
 
   application:
     name: Tregusto
-  server:
-    port: 8082
+server:
+  port: 8082
 
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
