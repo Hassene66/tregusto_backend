@@ -11,6 +11,12 @@ public class ContactApiImpl implements ContactApi, ApiV1Contact {
 
     @Override
     public ResponseEntity<Void> createContactRequest(ContactRequestDTO contactRequestDTO) {
+
+        //TODO: verify captcha
+
+        //TODO: save contact request in database if captcha is valid
+
+        //TODO: send email to support team
         return ContactApi.super.createContactRequest(contactRequestDTO);
     }
 }
