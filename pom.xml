@@ -35,7 +35,6 @@
         <keycloak-admin-client.version>26.0.8</keycloak-admin-client.version>
         <openapi-generator-maven-plugin.version>7.17.0</openapi-generator-maven-plugin.version>
         <jackson-databind-nullable.version>0.2.9</jackson-databind-nullable.version>
-        <liquibase.version>5.0.2</liquibase.version>
         <sonar.version>3.11.0.3922</sonar.version>
         <jacoco.version>0.8.14</jacoco.version>
     </properties>
@@ -137,9 +136,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-liquibase</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -187,6 +185,35 @@
                                 </apiPackage>
                                 <modelPackage>
                                     fr.gopartner.tregusto.authentication.api.generated
+                                </modelPackage>
+                                <delegatePattern>false</delegatePattern>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <interfaceOnly>true</interfaceOnly>
+                                <documentationProvider>source</documentationProvider>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>administration-api</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/src/main/resources/static/swagger-ui/apis/administration-api.yaml
+                            </inputSpec>
+                            <output>${project.build.directory}/generated-sources/administration-api</output>
+                            <generatorName>spring</generatorName>
+                            <addCompileSourceRoot>true</addCompileSourceRoot>
+                            <modelNameSuffix>DTO</modelNameSuffix>
+
+                            <configOptions>
+                                <useTags>true</useTags>
+                                <apiPackage>
+                                    fr.gopartner.tregusto.administration.api.generated
+                                </apiPackage>
+                                <modelPackage>
+                                    fr.gopartner.tregusto.administration.api.generated
                                 </modelPackage>
                                 <delegatePattern>false</delegatePattern>
                                 <useSpringBoot3>true</useSpringBoot3>

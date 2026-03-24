@@ -1,6 +1,4 @@
 spring:
-
-
   application:
     name: Tregusto
   server:
@@ -8,7 +6,7 @@ spring:
 
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
-    change-log: ${LIQUIBASE_CHANGELOG:classpath:db/changelog/db.changelog-master.xml}
+    change-log: ${LIQUIBASE_CHANGELOG:classpath:db/changelog/db.changelog-master.yaml}
 
 
   datasource:

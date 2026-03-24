@@ -1,0 +1,54 @@
+openapi: 3.0.2
+info:
+  title: Administration API
+  version: 1.0.0
+paths:
+  /requests:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+        required: true
+      tags:
+        - contact
+      responses:
+        '200':
+          description: Successfully created contact request
+      operationId: createContactRequest
+      summary: Create a new contact request
+components:
+  schemas:
+    ContactRequest:
+      description: Contact request payload
+      required:
+        - name
+        - email
+        - phone
+        - message
+        - captcha
+      type: object
+      properties:
+        name:
+          description: Name of the person submitting the request
+          type: string
+        email:
+          description: Email address of the person
+          type: string
+        phone:
+          description: Phone number of the person
+          type: string
+        location:
+          description: Optional location of the person
+          type: string
+        message:
+          description: Message content of the contact request
+          type: string
+        captcha:
+          description: CAPTCHA token to verify the request is from a human
+          type: string
+tags:
+  -
+    name: TREGUSTO
+    description: ''

@@ -36,11 +36,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy: fr.gopartner.tregusto.common.infrastructure.CustomPhysicalNamingStrategy
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  ##################################################
+  # Liquibase Configuration
+  ##################################################
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
   ##################################################
   # Keycloak / OAuth2 Configuration
@@ -52,6 +60,7 @@ spring:
           principal-claim-name: email
           issuer-uri: ${keycloak_base_url}/realms/${keycloak_realm}
           jwk-set-uri: ${keycloak_base_url}/realms/${keycloak_realm}/protocol/openid-connect/certs
-
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml
+logging:
+  level:
+    liquibase: DEBUG
+    org.springframework.security: DEBUG
