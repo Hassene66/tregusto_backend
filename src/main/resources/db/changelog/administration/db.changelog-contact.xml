@@ -10,7 +10,7 @@
     <!-- =============================== -->
     <changeSet id="contact-requests-table-001" author="Hassene">
         <createTable tableName="contact_requests">
-            <column name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 

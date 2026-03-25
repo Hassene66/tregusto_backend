@@ -64,3 +64,8 @@ logging:
   level:
     liquibase: DEBUG
     org.springframework.security: DEBUG
+
+google:
+  recaptcha:
+    secret-key: 6LejPY8sAAAAAI5rHHuW1GqT5yTh0IVfvnGFDIECgive
+    verification-url: https://www.google.com/recaptcha/api/siteverify

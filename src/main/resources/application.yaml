@@ -1,8 +1,7 @@
 spring:
   application:
     name: Tregusto
-  server:
-    port: 8082
+
 
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
@@ -27,3 +26,6 @@ spring:
   logging:
     level:
       org.springframework.security: DEBUG
+
+server:
+  port: 8082
