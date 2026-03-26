@@ -41,4 +41,12 @@
             <column name="completion_date"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="002-add-event-publication-columns" author="Hassene">
+        <addColumn tableName="event_publication">
+            <column name="completion_attempts" type="integer" defaultValue="0"/>
+            <column name="last_resubmission_date" type="timestamp without time zone"/>
+            <column name="status" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

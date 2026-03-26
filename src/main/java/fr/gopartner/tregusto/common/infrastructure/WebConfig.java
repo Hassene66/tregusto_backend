@@ -16,5 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addStatusController("/favicon.ico", HttpStatus.NOT_FOUND);
         registry.addStatusController("/robots.txt", HttpStatus.NOT_FOUND);
+        
+        registry.addViewController("/preview/contact-request-confirmation")
+                .setViewName("contact-request-confirmation");
     }
 }

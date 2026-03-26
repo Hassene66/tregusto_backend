@@ -6,10 +6,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
-
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClient;
 
 @Slf4j
 @Service
@@ -38,7 +37,7 @@ public class CaptchaServiceImpl implements CaptchaService {
                 return false;
             }
 
-            return response.contains("\"success\":true");
+            return response.contains("\"success\": true");
         } catch (Exception e) {
             log.error("reCAPTCHA verification failed: {}", e.getMessage(), e);
             return false;

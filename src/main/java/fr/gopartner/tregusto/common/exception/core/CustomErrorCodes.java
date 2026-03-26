@@ -14,6 +14,7 @@ public final class CustomErrorCodes {
         public static final int RESOURCE_NOT_FOUND = 1001;
         public static final int RESOURCE_ALREADY_EXISTS = 1002;
         public static final int INVALID_ARGUMENTS = 1003;
+        public static final int INVALID_CAPTCHA = 1004;
     }
 
     // Account module codes

@@ -3,7 +3,7 @@ info:
   title: Administration API
   version: 1.0.0
 paths:
-  /requests:
+  /contact/requests:
     post:
       requestBody:
         content:
