@@ -1,4 +1,4 @@
-package fr.gopartner.tregusto.notification.api.events.listeners;
+package fr.gopartner.tregusto.notification.api.events.listeners.administration;
 
 import fr.gopartner.tregusto.administration.api.events.ContactRequestCreatedEvent;
 import fr.gopartner.tregusto.notification.internal.EmailNotificationService;
@@ -11,15 +11,18 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AdministrationEventsListener {
+public class ContactEventListener {
 
     private final EmailNotificationService emailNotificationService;
 
-
     @ApplicationModuleListener
     void handleContactFormSubmissionEvent(ContactRequestCreatedEvent event) throws MessagingException {
-        log.error("Contact form submitted: {}", event);
-        emailNotificationService.sendContactConfirmation(event.requestId(), event.recipientName(), event.recipientEmail(), event.message());
+        log.info("Processing contact form submission for request ID: {}", event.requestId());
+        emailNotificationService.sendContactConfirmation(
+                event.requestId(),
+                event.recipientName(),
+                event.recipientEmail(),
+                event.message()
+        );
     }
-
 }

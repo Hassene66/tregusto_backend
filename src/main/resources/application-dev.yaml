@@ -14,6 +14,8 @@ application:
   config:
     name: "Tregusto"
     public-url: "http://tregusto.dev.gopartner.fr"
+    newsletter:
+      confirmation-url: "http://localhost:3000/newsletter/confirm"
   keycloak:
     base-url: ${keycloak_base_url}
     realm: ${keycloak_realm}
