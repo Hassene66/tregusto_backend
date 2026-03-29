@@ -43,6 +43,21 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
     }
 
+    @Override
+    public void sendNewsletterConfirmation(String email, String token) throws MessagingException {
+        String confirmationUrl = applicationConfig.getNewsletter().getConfirmationUrl() + "?token=" + token;
+
+        Map<String, Object> variables = Map.of(
+                "confirmationUrl", confirmationUrl,
+                "appName", applicationConfig.getName(),
+                "appUrl", applicationConfig.getPublicUrl()
+        );
+
+        String subject = "Confirmez votre abonnement à la newsletter Tregusto";
+
+        sendHtmlEmail(email, subject, "newsletter-confirmation", variables);
+    }
+
 
     private void sendHtmlEmail(String to, String subject, String templateName, Map<String, Object> variables) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();

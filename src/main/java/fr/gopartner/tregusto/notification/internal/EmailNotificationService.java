@@ -5,4 +5,6 @@ import jakarta.mail.MessagingException;
 public interface EmailNotificationService {
 
     void sendContactConfirmation(Long requestId, String recipientName, String recipientEmail, String message) throws MessagingException;
+    
+    void sendNewsletterConfirmation(String email, String token) throws MessagingException;
 }
