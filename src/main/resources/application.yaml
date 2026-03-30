@@ -25,7 +25,7 @@ spring:
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
     change-log: ${LIQUIBASE_CHANGELOG:classpath:db/changelog/db.changelog-master.yaml}
-
+    default-schema: public
   security:
     oauth2:
       client:
