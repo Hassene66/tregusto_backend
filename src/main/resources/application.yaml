@@ -73,15 +73,15 @@ spring:
 application:
   config:
     name: "Tregusto"
-    public-url: "http://tregusto.dev.gopartner.fr"
+    public-url: ${APPLICATION_BASE_URL}
     newsletter:
-      confirmation-url: "http://localhost:3000/newsletter/confirm"
+      confirmation-url: ${APPLICATION_BASE_URL}/newsletter/confirm
   authentication:
     api-allowed-origins: ${CORS_ALLOWED_ORIGINS}
   keycloak:
     base-url: ${KC_BASE_URL}
     realm: ${KC_REALM}
-    admin-client-id: ${KC_ADMIN_CLIENT_ID:agriloc}
+    admin-client-id: ${KC_ADMIN_CLIENT_ID:tregusto}
     client-secret: ${KC_CLIENT_SECRET}
   recaptcha:
     secret-key: ${RECAPTCHA_SECRET_KEY}
