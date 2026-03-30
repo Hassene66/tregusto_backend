@@ -1,12 +1,30 @@
 spring:
-
-
   application:
     name: Tregusto
+  ##################################################
+  # Email Configuration
+  ##################################################
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gopartner.fr@gmail.com
+    password: xkfaazfbcduftfxk
+    default-encoding: UTF-8
+    properties:
+      mail:
+        debug: true
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        mime:
+          charset: UTF
 
   liquibase:
     enabled: ${LIQUIBASE_ENABLED:true}
-    change-log: ${LIQUIBASE_CHANGELOG:classpath:db/changelog/db.changelog-master.xml}
+    change-log: ${LIQUIBASE_CHANGELOG:classpath:db/changelog/db.changelog-master.yaml}
 
   security:
     oauth2:

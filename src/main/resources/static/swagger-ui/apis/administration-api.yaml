@@ -1,0 +1,151 @@
+openapi: 3.0.2
+info:
+  title: Administration API
+  version: 1.0.0
+paths:
+  /contact/requests:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequest'
+        required: true
+      tags:
+        - contact
+      responses:
+        '200':
+          description: Successfully created contact request
+      operationId: createContactRequest
+      summary: Create a new contact request
+  /newsletter/confirm:
+    get:
+      tags:
+        - newsletter
+      parameters:
+        -
+          name: token
+          schema:
+            type: string
+          in: query
+          required: true
+      responses:
+        '200':
+          description: Subscription confirmed
+        '404':
+          description: Invalid or expired token
+      operationId: confirmNewsletterSubscription
+      summary: Confirm newsletter subscription via token
+  /newsletter/subscribe:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsletterSubscribeRequest'
+        required: true
+      tags:
+        - newsletter
+      responses:
+        '200':
+          description: 'Subscription created, confirmation email sent'
+        '400':
+          description: Email already subscribed or invalid
+      operationId: subscribeToNewsletter
+      summary: Subscribe to newsletter (creates pending subscription)
+  /newsletter/unsubscribe:
+    get:
+      tags:
+        - newsletter
+      parameters:
+        -
+          name: token
+          schema:
+            type: string
+          in: query
+          required: true
+      responses:
+        '200':
+          description: Unsubscribed successfully
+        '404':
+          description: Invalid unsubscribe link
+      operationId: unsubscribeFromNewsletter
+      summary: Unsubscribe from newsletter via token
+      description: Unsubscribe using the token from the confirmation email
+components:
+  schemas:
+    ContactRequest:
+      description: Contact request payload
+      required:
+        - name
+        - email
+        - phone
+        - message
+        - captcha
+      type: object
+      properties:
+        name:
+          description: Name of the person submitting the request
+          type: string
+        email:
+          description: Email address of the person
+          type: string
+        phone:
+          description: Phone number of the person
+          type: string
+        location:
+          description: Optional location of the person
+          type: string
+        message:
+          description: Message content of the contact request
+          type: string
+        captcha:
+          description: CAPTCHA token to verify the request is from a human
+          type: string
+    NewsletterSubscribeRequest:
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          format: email
+          description: Email address to subscribe to the newsletter
+          type: string
+    NewsletterUnsubscribeRequest:
+      required:
+        - email
+      type: object
+      properties:
+        email:
+          format: email
+          description: Email address to unsubscribe from the newsletter
+          type: string
+    NewsletterSubscription:
+      type: object
+      properties:
+        id:
+          description: Subscription ID
+          type: integer
+        email:
+          format: email
+          description: Subscriber email address
+          type: string
+        status:
+          description: Current subscription status
+          enum:
+            - pending
+            - active
+            - unsubscribed
+          type: string
+        createdAt:
+          format: date-time
+          description: Subscription creation date
+          type: string
+        confirmedAt:
+          format: date-time
+          description: Subscription confirmation date
+          type: string
+tags:
+  -
+    name: TREGUSTO
+    description: ''

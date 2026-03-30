@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+          http://www.liquibase.org/xml/ns/dbchangelog
+          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="001-create-event-publication" author="Hassene">
+        <!-- Table : event_publication -->
+        <createTable tableName="event_publication">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="publication_date" type="timestamp without time zone">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="completion_date" type="timestamp without time zone"/>
+
+            <column name="event_type" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="listener_id" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="serialized_event" type="text">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <!-- Indexes -->
+        <createIndex indexName="idx_event_publication_publication_date" tableName="event_publication">
+            <column name="publication_date"/>
+        </createIndex>
+
+        <createIndex indexName="idx_event_publication_completion_date" tableName="event_publication">
+            <column name="completion_date"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="002-add-event-publication-columns" author="Hassene">
+        <addColumn tableName="event_publication">
+            <column name="completion_attempts" type="integer" defaultValue="0"/>
+            <column name="last_resubmission_date" type="timestamp without time zone"/>
+            <column name="status" type="varchar(50)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

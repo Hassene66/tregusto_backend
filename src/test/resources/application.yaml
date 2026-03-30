@@ -26,6 +26,15 @@ spring:
     enabled: false
 
   ##################################################
+  # Mail Configuration for Tests (Mock)
+  ##################################################
+  mail:
+    host: localhost
+    port: 25
+    username: test
+    password: test
+
+  ##################################################
   # Keycloak / OAuth2 Configuration
   ##################################################
   security:
@@ -50,3 +59,8 @@ application:
   authentication:
     api-allowed-origins:
       - http://localhost:*
+  config:
+    name: "Tregusto"
+    public-url: "http://localhost:8082"
+    newsletter:
+      confirmation-url: "http://localhost:3000/newsletter/confirm"

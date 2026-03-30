@@ -15,7 +15,12 @@ import java.util.List;
 public class ApplicationConfig {
     private String name;
     private String publicUrl;
-    private String otpExpirationMinutes;
     private List<String> allowedOrigins = new ArrayList<>();
+    private Newsletter newsletter;
+    
+    @Data
+    public static class Newsletter {
+        private String confirmationUrl;
+    }
 }
 

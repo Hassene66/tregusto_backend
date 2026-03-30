@@ -6,7 +6,16 @@ keycloak_realm: Tregusto
 keycloak_admin-client_id: tregusto-client-id
 keycloak_client_secret: 9B1slGDa7u35LVFEEOUOzNx7Zl6bzbmn
 
+
+##################################################
+# Application configuration properties
+##################################################
 application:
+  config:
+    name: "Tregusto"
+    public-url: "http://tregusto.dev.gopartner.fr"
+    newsletter:
+      confirmation-url: "http://localhost:3000/newsletter/confirm"
   keycloak:
     base-url: ${keycloak_base_url}
     realm: ${keycloak_realm}
@@ -15,6 +24,9 @@ application:
   authentication:
     api-allowed-origins:
       - "http://localhost:3000"
+  recaptcha:
+    secret-key: 6LejPY8sAAAAAI5rHHuW1GqT5yTh0IVfvnGFDIEC
+    verification-url: https://www.google.com/recaptcha/api/siteverify
 
 spring:
   ##################################################
@@ -36,11 +48,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+      naming:
+        physical-strategy: fr.gopartner.tregusto.common.infrastructure.CustomPhysicalNamingStrategy
     show-sql: true
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  ##################################################
+  # Liquibase Configuration
+  ##################################################
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
 
   ##################################################
   # Keycloak / OAuth2 Configuration
@@ -53,5 +73,30 @@ spring:
           issuer-uri: ${keycloak_base_url}/realms/${keycloak_realm}
           jwk-set-uri: ${keycloak_base_url}/realms/${keycloak_realm}/protocol/openid-connect/certs
 
-  liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  ##################################################
+  # Email Configuration
+  ##################################################
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gopartner.fr@gmail.com
+    password: xkfaazfbcduftfxk
+    default-encoding: UTF-8
+    properties:
+      mail:
+        debug: true
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        mime:
+          charset: UTF
+
+
+logging:
+  level:
+    liquibase: DEBUG
+    org.springframework.security: DEBUG
