@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/administration/db.changelog-newsletter.xml
   - include:
       file: db/changelog/administration/db.changelog-product.xml
+  - include:
+      file: db/changelog/common/db.changelog-data.xml
