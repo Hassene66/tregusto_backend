@@ -10,4 +10,10 @@ import java.util.List;
 public interface ProductImageRepository extends JpaRepository<ProductImage, Integer> {
 
     List<ProductImage> findByProductIdOrderByDisplayOrderAsc(Integer productId);
+
+    Integer findMaxDisplayOrderByProductId(Integer productId);
+
+    void deleteByProductId(Integer productId);
+
+    List<ProductImage> findByProductId(Integer productId);
 }

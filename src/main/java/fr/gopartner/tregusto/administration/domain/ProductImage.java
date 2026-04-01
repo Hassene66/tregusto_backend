@@ -32,4 +32,11 @@ public class ProductImage {
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @PrePersist
+    private void setDefaultDisplayOrder() {
+        if (displayOrder == null) {
+            displayOrder = 0;
+        }
+    }
 }

@@ -13,6 +13,8 @@ public interface ProductService {
 
     Optional<Product> getBySlug(String slug);
 
+    Optional<Product> getById(Integer id);
+
     Product create(Product product);
 
     Product update(Integer id, Product product);

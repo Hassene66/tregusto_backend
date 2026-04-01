@@ -43,9 +43,6 @@ public class Product {
     @Column(precision = 3, scale = 2)
     private BigDecimal rating = BigDecimal.ZERO;
 
-    @Column(nullable = false)
-    private String mainImageUrl;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

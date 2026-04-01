@@ -52,9 +52,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="rating" type="DECIMAL(3,2)" defaultValueNumeric="0"/>
-            <column name="main_image_url" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
             <column name="category_id" type="INT">
                 <constraints nullable="false" foreignKeyName="fk_products_category" references="categories(id)"/>
             </column>

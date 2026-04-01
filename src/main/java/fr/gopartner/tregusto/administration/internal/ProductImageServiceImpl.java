@@ -23,10 +23,20 @@ public class ProductImageServiceImpl implements ProductImageService {
     }
 
     @Override
+    public Integer getMaxDisplayOrder(Integer productId) {
+        return productImageRepository.findMaxDisplayOrderByProductId(productId);
+    }
+
+    @Override
     @Transactional
     public ProductImage add(Integer productId, ProductImage image) {
         var product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
+
+        if (image.getDisplayOrder() == null) {
+            Integer maxOrder = productImageRepository.findMaxDisplayOrderByProductId(productId);
+            image.setDisplayOrder(maxOrder + 1);
+        }
 
         image.setProduct(product);
         return productImageRepository.save(image);

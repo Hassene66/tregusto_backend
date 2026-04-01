@@ -8,6 +8,8 @@ public interface ProductImageService {
 
     List<ProductImage> getByProductId(Integer productId);
 
+    Integer getMaxDisplayOrder(Integer productId);
+
     ProductImage add(Integer productId, ProductImage image);
 
     ProductImage update(Integer productId, Integer imageId, ProductImage image);

@@ -209,9 +209,39 @@ paths:
         - products
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ProductRequest'
+              type: object
+              required:
+                - name
+                - price
+                - categoryId
+                - images
+              properties:
+                name:
+                  type: string
+                shortDescription:
+                  type: string
+                longDescription:
+                  type: string
+                price:
+                  type: number
+                  format: double
+                status:
+                  type: string
+                  enum: [new, popular, default]
+                  default: default
+                categoryId:
+                  type: integer
+                isAvailable:
+                  type: boolean
+                  default: true
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Product images (first image is main)
         required: true
       responses:
         '201':
@@ -221,7 +251,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Product'
       operationId: createProduct
-      summary: Create a new product
+      summary: Create a new product with images
 
   /products/featured:
     get:
@@ -273,9 +303,38 @@ paths:
             type: integer
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ProductRequest'
+              type: object
+              required:
+                - name
+                - price
+                - categoryId
+              properties:
+                name:
+                  type: string
+                shortDescription:
+                  type: string
+                longDescription:
+                  type: string
+                price:
+                  type: number
+                  format: double
+                status:
+                  type: string
+                  enum: [new, popular, default]
+                  default: default
+                categoryId:
+                  type: integer
+                isAvailable:
+                  type: boolean
+                  default: true
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Product images (first image is main, replaces all existing images)
         required: true
       responses:
         '200':
@@ -287,7 +346,7 @@ paths:
         '404':
           description: Product not found
       operationId: updateProduct
-      summary: Update an existing product
+      summary: Update an existing product with images
     delete:
       tags:
         - products
@@ -315,9 +374,21 @@ paths:
             type: integer
       requestBody:
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: '#/components/schemas/ProductImageRequest'
+              type: object
+              required:
+                - image
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: Gallery image file
+                altText:
+                  type: string
+                displayOrder:
+                  type: integer
+                  default: 0
         required: true
       responses:
         '201':
@@ -327,7 +398,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProductImage'
       operationId: addProductImage
-      summary: Add an image to a product
+      summary: Add a gallery image to a product
 
   /products/{productId}/images/{imageId}:
     put:
@@ -779,8 +850,6 @@ components:
         rating:
           type: number
           format: double
-        mainImageUrl:
-          type: string
         categoryId:
           type: integer
         isAvailable:
@@ -804,7 +873,6 @@ components:
       required:
         - name
         - price
-        - mainImageUrl
         - categoryId
       type: object
       properties:
@@ -821,8 +889,6 @@ components:
           type: string
           enum: [new, popular, default]
           default: default
-        mainImageUrl:
-          type: string
         categoryId:
           type: integer
         isAvailable:
@@ -838,6 +904,7 @@ components:
           type: integer
         imageUrl:
           type: string
+          description: Base64 encoded image (data:image/jpeg;base64,...) or null if file is missing
         altText:
           type: string
         displayOrder:

@@ -23,6 +23,8 @@ public interface ProductMapper {
     Product toEntity(ProductRequestDTO dto);
 
     @Mapping(target = "categoryId", source = "category.id")
+    @Mapping(target = "images", source = "images")
+    @Mapping(target = "ingredients", source = "ingredients")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     ProductDTO toDto(Product entity);

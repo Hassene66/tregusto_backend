@@ -1,11 +1,11 @@
 package fr.gopartner.tregusto.administration.internal;
 
-import fr.gopartner.tregusto.administration.domain.Category;
 import fr.gopartner.tregusto.administration.domain.Product;
 import fr.gopartner.tregusto.administration.domain.ProductStatus;
 import fr.gopartner.tregusto.administration.infrastructure.persistence.CategoryRepository;
 import fr.gopartner.tregusto.administration.infrastructure.persistence.ProductRepository;
 import fr.gopartner.tregusto.common.exception.shared.ResourceNotFoundException;
+import fr.gopartner.tregusto.common.utils.SlugGenerator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,12 +45,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Optional<Product> getById(Integer id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
     @Transactional
     public Product create(Product product) {
-        var category = categoryRepository.findById(product.getCategory().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found"));
+        String slug = product.getSlug();
 
-        product.setCategory(category);
+        if (slug == null || slug.isEmpty()) {
+            slug = SlugGenerator.generate(product.getName());
+        }
+
+        int counter = 1;
+        String originalSlug = slug;
+        while (productRepository.existsBySlug(slug)) {
+            slug = originalSlug + "-" + counter++;
+        }
+
+        product.setSlug(slug);
+
         return productRepository.save(product);
     }
 
@@ -65,7 +80,6 @@ public class ProductServiceImpl implements ProductService {
         existing.setLongDescription(product.getLongDescription());
         existing.setPrice(product.getPrice());
         existing.setStatus(product.getStatus());
-        existing.setMainImageUrl(product.getMainImageUrl());
         existing.setIsAvailable(product.getIsAvailable());
 
         if (product.getCategory() != null && product.getCategory().getId() != null) {
