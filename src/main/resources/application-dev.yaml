@@ -27,6 +27,14 @@ application:
   recaptcha:
     secret-key: 6LejPY8sAAAAAI5rHHuW1GqT5yTh0IVfvnGFDIEC
     verification-url: https://www.google.com/recaptcha/api/siteverify
+  upload:
+    base-dir: uploads
+    max-file-size: 5242880
+    allowed-extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
 
 spring:
   ##################################################

@@ -43,6 +43,9 @@ public class SecurityConfig {
                             .requestMatchers("/api/v1/authentication/test").permitAll()
                             .requestMatchers("/api/v1/administration/contact/requests").permitAll()
                             .requestMatchers("/api/v1/administration/newsletter/**").permitAll()
+                            .requestMatchers("/api/v1/administration/categories/**").permitAll()
+                            .requestMatchers("/api/v1/administration/products/**").permitAll()
+                            .requestMatchers("/api/v1/administration/ingredients/**").permitAll()
                             .anyRequest().authenticated();
                 });
 
