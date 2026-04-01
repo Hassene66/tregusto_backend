@@ -5,7 +5,7 @@ import fr.gopartner.tregusto.administration.api.generated.ProductRequestDTO;
 import fr.gopartner.tregusto.administration.api.generated.ProductsApi;
 import fr.gopartner.tregusto.administration.domain.ProductImage;
 import fr.gopartner.tregusto.administration.domain.ProductStatus;
-import fr.gopartner.tregusto.administration.infrastructure.config.UploadProperties;
+import fr.gopartner.tregusto.common.config.ImageUploadConfig;
 import fr.gopartner.tregusto.administration.infrastructure.mapper.ProductMapper;
 import fr.gopartner.tregusto.administration.infrastructure.persistence.CategoryRepository;
 import fr.gopartner.tregusto.administration.internal.ProductService;
@@ -27,7 +27,7 @@ public class ProductApiImpl implements ProductsApi, ApiV1Administration {
 
     private final ProductService productService;
     private final ProductMapper productMapper;
-    private final UploadProperties uploadProperties;
+    private final ImageUploadConfig uploadProperties;
     private final CategoryRepository categoryRepository;
 
     @Override

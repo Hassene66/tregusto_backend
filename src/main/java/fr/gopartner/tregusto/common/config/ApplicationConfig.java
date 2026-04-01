@@ -1,4 +1,4 @@
-package fr.gopartner.tregusto.common;
+package fr.gopartner.tregusto.common.config;
 
 
 import lombok.Data;

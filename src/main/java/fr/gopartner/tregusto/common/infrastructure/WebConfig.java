@@ -1,6 +1,6 @@
 package fr.gopartner.tregusto.common.infrastructure;
 
-import fr.gopartner.tregusto.administration.infrastructure.config.UploadProperties;
+import fr.gopartner.tregusto.common.config.ImageUploadConfig;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -13,9 +13,9 @@ import java.io.File;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final UploadProperties uploadProperties;
+    private final ImageUploadConfig uploadProperties;
 
-    public WebConfig(UploadProperties uploadProperties) {
+    public WebConfig(ImageUploadConfig uploadProperties) {
         this.uploadProperties = uploadProperties;
     }
 

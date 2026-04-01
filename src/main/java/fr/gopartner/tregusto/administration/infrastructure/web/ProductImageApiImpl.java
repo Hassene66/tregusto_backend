@@ -3,13 +3,11 @@ package fr.gopartner.tregusto.administration.infrastructure.web;
 import fr.gopartner.tregusto.administration.api.generated.ProductImagesApi;
 import fr.gopartner.tregusto.administration.api.generated.ProductImageDTO;
 import fr.gopartner.tregusto.administration.api.generated.ProductImageRequestDTO;
-import fr.gopartner.tregusto.administration.domain.Product;
 import fr.gopartner.tregusto.administration.domain.ProductImage;
-import fr.gopartner.tregusto.administration.infrastructure.config.UploadProperties;
+import fr.gopartner.tregusto.common.config.ImageUploadConfig;
 import fr.gopartner.tregusto.administration.infrastructure.mapper.ProductImageMapper;
 import fr.gopartner.tregusto.administration.internal.ProductImageService;
 import fr.gopartner.tregusto.administration.internal.ProductService;
-import fr.gopartner.tregusto.administration.utils.ImageStorageUtil;
 import fr.gopartner.tregusto.common.exception.shared.ResourceNotFoundException;
 import fr.gopartner.tregusto.common.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +23,7 @@ public class ProductImageApiImpl implements ProductImagesApi, ApiV1Administratio
 
     private final ProductImageService productImageService;
     private final ProductImageMapper productImageMapper;
-    private final UploadProperties uploadProperties;
+    private final ImageUploadConfig uploadProperties;
     private final ProductService productService;
 
     @Override
