@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(config = GlobalMapperConfig.class, uses = {ProductImageMapper.class, ProductIngredientMapper.class})
+@Mapper(config = GlobalMapperConfig.class, uses = {ProductImageMapper.class, ProductIngredientMapper.class, CategoryMapper.class})
 public interface ProductMapper {
 
     @Mapping(target = "id", ignore = true)
@@ -22,9 +22,6 @@ public interface ProductMapper {
     @Mapping(target = "updatedAt", ignore = true)
     Product toEntity(ProductRequestDTO dto);
 
-    @Mapping(target = "categoryId", source = "category.id")
-    @Mapping(target = "images", source = "images")
-    @Mapping(target = "ingredients", source = "ingredients")
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     ProductDTO toDto(Product entity);

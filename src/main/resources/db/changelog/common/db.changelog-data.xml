@@ -14,31 +14,31 @@
             <column name="name" value="Pizzas"/>
             <column name="slug" value="pizzas"/>
             <column name="is_active" valueBoolean="true"/>
-            <column name="image_url" value="/images/categories/pizzas.jpg"/>
+            <column name="image_url" value="/img/category/icon/pizzas.png"/>
         </insert>
         <insert tableName="categories">
             <column name="name" value="Burgers"/>
             <column name="slug" value="burgers"/>
             <column name="is_active" valueBoolean="true"/>
-            <column name="image_url" value="/images/categories/burgers.jpg"/>
+            <column name="image_url" value="/img/category/icon/burgers.png"/>
         </insert>
         <insert tableName="categories">
             <column name="name" value="Sandwichs"/>
             <column name="slug" value="sandwichs"/>
             <column name="is_active" valueBoolean="true"/>
-            <column name="image_url" value="/images/categories/sandwichs.jpg"/>
+            <column name="image_url" value="/img/category/icon/sandwichs.png"/>
         </insert>
         <insert tableName="categories">
             <column name="name" value="Boissons"/>
             <column name="slug" value="boissons"/>
             <column name="is_active" valueBoolean="true"/>
-            <column name="image_url" value="/images/categories/boissons.jpg"/>
+            <column name="image_url" value="/img/category/icon/boissons.png"/>
         </insert>
         <insert tableName="categories">
             <column name="name" value="Desserts"/>
             <column name="slug" value="desserts"/>
             <column name="is_active" valueBoolean="true"/>
-            <column name="image_url" value="/images/categories/desserts.jpg"/>
+            <column name="image_url" value="/img/category/icon/salades.png"/>
         </insert>
     </changeSet>
 
