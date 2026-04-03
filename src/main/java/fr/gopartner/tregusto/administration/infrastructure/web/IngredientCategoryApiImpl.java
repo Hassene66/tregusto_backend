@@ -4,8 +4,7 @@ import fr.gopartner.tregusto.administration.api.generated.IngredientCategoriesAp
 import fr.gopartner.tregusto.administration.api.generated.IngredientCategoryDTO;
 import fr.gopartner.tregusto.administration.api.generated.IngredientCategoryRequestDTO;
 import fr.gopartner.tregusto.administration.infrastructure.mapper.IngredientCategoryMapper;
-import fr.gopartner.tregusto.administration.internal.IngredientCategoryService;
-import fr.gopartner.tregusto.common.exception.shared.ResourceNotFoundException;
+import fr.gopartner.tregusto.administration.internal.menu.IngredientCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

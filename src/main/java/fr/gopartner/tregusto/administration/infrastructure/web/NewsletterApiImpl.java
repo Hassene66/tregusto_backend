@@ -2,7 +2,7 @@ package fr.gopartner.tregusto.administration.infrastructure.web;
 
 import fr.gopartner.tregusto.administration.api.generated.NewsletterApi;
 import fr.gopartner.tregusto.administration.api.generated.NewsletterSubscribeRequestDTO;
-import fr.gopartner.tregusto.administration.internal.NewsletterService;
+import fr.gopartner.tregusto.administration.internal.contact.NewsletterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,7 +1,7 @@
 package fr.gopartner.tregusto.administration.infrastructure.persistence;
 
-import fr.gopartner.tregusto.administration.domain.Product;
-import fr.gopartner.tregusto.administration.domain.ProductStatus;
+import fr.gopartner.tregusto.administration.domain.menu.Product;
+import fr.gopartner.tregusto.administration.domain.menu.ProductStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
