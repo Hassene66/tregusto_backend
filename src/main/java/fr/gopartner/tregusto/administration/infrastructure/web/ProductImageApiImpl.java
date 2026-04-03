@@ -1,13 +1,13 @@
 package fr.gopartner.tregusto.administration.infrastructure.web;
 
-import fr.gopartner.tregusto.administration.api.generated.ProductImagesApi;
 import fr.gopartner.tregusto.administration.api.generated.ProductImageDTO;
-import fr.gopartner.tregusto.administration.api.generated.ProductImageRequestDTO;
+import fr.gopartner.tregusto.administration.api.generated.ProductImagesApi;
 import fr.gopartner.tregusto.administration.domain.menu.ProductImage;
-import fr.gopartner.tregusto.common.config.ImageUploadConfig;
 import fr.gopartner.tregusto.administration.infrastructure.mapper.ProductImageMapper;
 import fr.gopartner.tregusto.administration.internal.menu.ProductImageService;
 import fr.gopartner.tregusto.administration.internal.menu.ProductService;
+import fr.gopartner.tregusto.common.config.ImageUploadConfig;
+import fr.gopartner.tregusto.common.exception.shared.FileSystemException;
 import fr.gopartner.tregusto.common.exception.shared.ResourceNotFoundException;
 import fr.gopartner.tregusto.common.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class ProductImageApiImpl implements ProductImagesApi, ApiV1Administratio
 
     private final ProductImageService productImageService;
     private final ProductImageMapper productImageMapper;
-    private final ImageUploadConfig uploadProperties;
+    private final ImageUploadConfig imageUploadConfig;
     private final ProductService productService;
 
     @Override
@@ -36,12 +36,12 @@ public class ProductImageApiImpl implements ProductImagesApi, ApiV1Administratio
 
         try {
             String imageUrl = FileUtils.saveFile(
-                uploadProperties.getBaseDir(),
-                "products",
-                productId.toString(),
-                image,
-                uploadProperties.getMaxFileSize(),
-                uploadProperties.getAllowedExtensions()
+                    imageUploadConfig.getBaseDir(),
+                    product.getCategory().getSlug() + "/" + product.getId(),
+                    productId.toString(),
+                    image,
+                    imageUploadConfig.getMaxFileSize(),
+                    imageUploadConfig.getAllowedExtensions()
             );
 
             ProductImage productImage = new ProductImage();
@@ -53,20 +53,23 @@ public class ProductImageApiImpl implements ProductImagesApi, ApiV1Administratio
             var created = productImageService.add(productId, productImage);
             return ResponseEntity.status(201).body(productImageMapper.toDto(created));
         } catch (IOException e) {
-            throw new RuntimeException("Failed to save product image", e);
+            throw new FileSystemException("Failed to save product image");
         }
     }
 
     @Override
-    public ResponseEntity<ProductImageDTO> updateProductImage(Integer productId, Integer imageId, ProductImageRequestDTO request) {
-        var entity = productImageMapper.toEntity(request);
-        var updated = productImageService.update(productId, imageId, entity);
-        return ResponseEntity.ok(productImageMapper.toDto(updated));
+    public ResponseEntity<ProductImageDTO> updateProductImage(Integer productId, Integer imageId, MultipartFile image, String altText, Integer displayOrder) {
+        try {
+            var updated = productImageService.updateWithImage(productId, imageId, image, altText, displayOrder);
+            return ResponseEntity.ok(productImageMapper.toDto(updated));
+        } catch (IOException e) {
+            throw new FileSystemException("Failed to update product image");
+        }
     }
 
     @Override
     public ResponseEntity<Void> deleteProductImage(Integer productId, Integer imageId) {
-        productImageService.delete(productId, imageId);
+        productImageService.deleteWithFile(productId, imageId);
         return ResponseEntity.noContent().build();
     }
 }

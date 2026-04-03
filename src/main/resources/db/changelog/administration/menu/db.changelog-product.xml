@@ -59,7 +59,7 @@
             </column>
             <column name="rating" type="DECIMAL(3,2)" defaultValueNumeric="0"/>
             <column name="category_id" type="INT">
-                <constraints nullable="false" foreignKeyName="fk_products_category" references="categories(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="is_available" type="BOOLEAN" defaultValueBoolean="true">
                 <constraints nullable="false"/>
@@ -83,6 +83,15 @@
         <createIndex indexName="idx_products_is_available" tableName="products">
             <column name="is_available"/>
         </createIndex>
+
+        <!-- CASCADE: Category → Products -->
+        <addForeignKeyConstraint
+                baseTableName="products"
+                baseColumnNames="category_id"
+                referencedTableName="categories"
+                referencedColumnNames="id"
+                constraintName="fk_products_category"
+                onDelete="CASCADE"/>
     </changeSet>
 
     <!-- ======================================== -->
@@ -94,7 +103,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="product_id" type="INT">
-                <constraints nullable="false" foreignKeyName="fk_product_images_product" references="products(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="image_url" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -107,6 +116,15 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
+        <!-- CASCADE: Product → ProductImages -->
+        <addForeignKeyConstraint
+                baseTableName="product_images"
+                baseColumnNames="product_id"
+                referencedTableName="products"
+                referencedColumnNames="id"
+                constraintName="fk_product_images_product"
+                onDelete="CASCADE"/>
         <createIndex indexName="idx_product_images_product_id" tableName="product_images">
             <column name="product_id"/>
         </createIndex>
@@ -147,7 +165,7 @@
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="category_id" type="INT">
-                <constraints nullable="false" foreignKeyName="fk_ingredients_category" references="ingredient_categories(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="created_at" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
                 <constraints nullable="false"/>
@@ -159,6 +177,15 @@
         <createIndex indexName="idx_ingredients_category_id" tableName="ingredients">
             <column name="category_id"/>
         </createIndex>
+
+        <!-- CASCADE: IngredientCategory → Ingredients -->
+        <addForeignKeyConstraint
+                baseTableName="ingredients"
+                baseColumnNames="category_id"
+                referencedTableName="ingredient_categories"
+                referencedColumnNames="id"
+                constraintName="fk_ingredients_category"
+                onDelete="CASCADE"/>
     </changeSet>
 
     <!-- ======================================== -->
@@ -167,10 +194,10 @@
     <changeSet id="006-product-ingredients-table" author="Hassene">
         <createTable tableName="product_ingredients">
             <column name="product_id" type="INT">
-                <constraints nullable="false" foreignKeyName="fk_product_ingredients_product" references="products(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="ingredient_id" type="INT">
-                <constraints nullable="false" foreignKeyName="fk_product_ingredients_ingredient" references="ingredients(id)"/>
+                <constraints nullable="false"/>
             </column>
             <column name="quantity" type="VARCHAR(50)"/>
             <column name="display_order" type="INT" defaultValueNumeric="0">
@@ -180,7 +207,22 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+
         <addPrimaryKey tableName="product_ingredients" columnNames="product_id, ingredient_id"/>
+        <addForeignKeyConstraint
+                baseTableName="product_ingredients"
+                baseColumnNames="product_id"
+                referencedTableName="products"
+                referencedColumnNames="id"
+                constraintName="fk_product_ingredients_product"
+                onDelete="CASCADE"/>
+        <addForeignKeyConstraint
+                baseTableName="product_ingredients"
+                baseColumnNames="ingredient_id"
+                referencedTableName="ingredients"
+                referencedColumnNames="id"
+                constraintName="fk_product_ingredients_ingredient"
+                onDelete="CASCADE"/>
         <createIndex indexName="idx_product_ingredients_product_id" tableName="product_ingredients">
             <column name="product_id"/>
         </createIndex>
