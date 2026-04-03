@@ -2,7 +2,7 @@ package fr.gopartner.tregusto.administration.infrastructure.mapper;
 
 import fr.gopartner.tregusto.administration.api.generated.CategoryDTO;
 import fr.gopartner.tregusto.administration.api.generated.CategoryRequestDTO;
-import fr.gopartner.tregusto.administration.domain.Category;
+import fr.gopartner.tregusto.administration.domain.menu.Category;
 import fr.gopartner.tregusto.common.GlobalMapperConfig;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

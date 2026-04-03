@@ -3,12 +3,12 @@ package fr.gopartner.tregusto.administration.infrastructure.web;
 import fr.gopartner.tregusto.administration.api.generated.ProductDTO;
 import fr.gopartner.tregusto.administration.api.generated.ProductRequestDTO;
 import fr.gopartner.tregusto.administration.api.generated.ProductsApi;
-import fr.gopartner.tregusto.administration.domain.ProductImage;
-import fr.gopartner.tregusto.administration.domain.ProductStatus;
+import fr.gopartner.tregusto.administration.domain.menu.ProductImage;
+import fr.gopartner.tregusto.administration.domain.menu.ProductStatus;
 import fr.gopartner.tregusto.common.config.ImageUploadConfig;
 import fr.gopartner.tregusto.administration.infrastructure.mapper.ProductMapper;
 import fr.gopartner.tregusto.administration.infrastructure.persistence.CategoryRepository;
-import fr.gopartner.tregusto.administration.internal.ProductService;
+import fr.gopartner.tregusto.administration.internal.menu.ProductService;
 import fr.gopartner.tregusto.administration.utils.ImageStorageUtil;
 import fr.gopartner.tregusto.common.exception.shared.ResourceNotFoundException;
 import fr.gopartner.tregusto.common.utils.FileUtils;
@@ -33,13 +33,13 @@ public class ProductApiImpl implements ProductsApi, ApiV1Administration {
     @Override
     public ResponseEntity<List<ProductDTO>> listProducts(Integer categoryId, String status, Boolean available) {
         var products = productService.listProducts(categoryId, status, available);
-        return ResponseEntity.ok(productMapper.toDtoList(products));
+        return ResponseEntity.ok(convertImagesToBase64(productMapper.toDtoList(products)));
     }
 
     @Override
     public ResponseEntity<List<ProductDTO>> getFeaturedProducts() {
         var products = productService.getFeaturedProducts();
-        return ResponseEntity.ok(productMapper.toDtoList(products));
+        return ResponseEntity.ok(convertImagesToBase64(productMapper.toDtoList(products)));
     }
 
     @Override
@@ -48,7 +48,12 @@ public class ProductApiImpl implements ProductsApi, ApiV1Administration {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         var dto = productMapper.toDto(product);
+        convertImagesToBase64(dto);
 
+        return ResponseEntity.ok(dto);
+    }
+
+    private void convertImagesToBase64(ProductDTO dto) {
         if (dto.getImages() != null) {
             for (var imageDto : dto.getImages()) {
                 if (imageDto.getImageUrl() != null) {
@@ -61,8 +66,13 @@ public class ProductApiImpl implements ProductsApi, ApiV1Administration {
                 }
             }
         }
+    }
 
-        return ResponseEntity.ok(dto);
+    private List<ProductDTO> convertImagesToBase64(List<ProductDTO> dtos) {
+        for (var dto : dtos) {
+            convertImagesToBase64(dto);
+        }
+        return dtos;
     }
 
     @Override

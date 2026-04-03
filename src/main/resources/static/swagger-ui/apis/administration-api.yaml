@@ -850,8 +850,8 @@ components:
         rating:
           type: number
           format: double
-        categoryId:
-          type: integer
+        category:
+          $ref: '#/components/schemas/Category'
         isAvailable:
           type: boolean
         images:
