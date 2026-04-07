@@ -5,11 +5,12 @@ import fr.gopartner.tregusto.administration.api.generated.ProductRequestDTO;
 import fr.gopartner.tregusto.administration.api.generated.ProductsApi;
 import fr.gopartner.tregusto.administration.domain.menu.ProductImage;
 import fr.gopartner.tregusto.administration.domain.menu.ProductStatus;
-import fr.gopartner.tregusto.common.config.ImageUploadConfig;
 import fr.gopartner.tregusto.administration.infrastructure.mapper.ProductMapper;
 import fr.gopartner.tregusto.administration.infrastructure.persistence.CategoryRepository;
 import fr.gopartner.tregusto.administration.internal.menu.ProductService;
 import fr.gopartner.tregusto.administration.utils.ImageStorageUtil;
+import fr.gopartner.tregusto.common.config.ImageUploadConfig;
+import fr.gopartner.tregusto.common.exception.shared.FileSystemException;
 import fr.gopartner.tregusto.common.exception.shared.ResourceNotFoundException;
 import fr.gopartner.tregusto.common.utils.FileUtils;
 import fr.gopartner.tregusto.common.utils.ImageUtils;
@@ -58,9 +59,9 @@ public class ProductApiImpl implements ProductsApi, ApiV1Administration {
             for (var imageDto : dto.getImages()) {
                 if (imageDto.getImageUrl() != null) {
                     String base64Image = ImageUtils.fileToBase64(
-                        uploadProperties.getBaseDir(),
-                        imageDto.getImageUrl(),
-                        uploadProperties.getMaxFileSize()
+                            uploadProperties.getBaseDir(),
+                            imageDto.getImageUrl(),
+                            uploadProperties.getMaxFileSize()
                     );
                     imageDto.setImageUrl(base64Image);
                 }
@@ -117,8 +118,8 @@ public class ProductApiImpl implements ProductsApi, ApiV1Administration {
                 }
                 productService.update(created.getId(), created);
             } catch (IOException e) {
-                FileUtils.deleteDirectory(uploadProperties.getBaseDir(), "products/" + created.getId());
-                throw new RuntimeException("Failed to save product images", e);
+                FileUtils.deleteDirectory(uploadProperties.getBaseDir(), category.getSlug() + "/" + created.getId());
+                throw new FileSystemException("Failed to save product images");
             }
         }
 
@@ -155,7 +156,7 @@ public class ProductApiImpl implements ProductsApi, ApiV1Administration {
                     MultipartFile image = images.get(i);
                     String imageUrl = FileUtils.saveFile(
                             uploadProperties.getBaseDir(),
-                            "products/" + updated.getId(),
+                            category.getSlug() + "/" + updated.getId(),
                             updated.getId() + "-" + i,
                             image,
                             uploadProperties.getMaxFileSize(),
@@ -170,7 +171,7 @@ public class ProductApiImpl implements ProductsApi, ApiV1Administration {
                 }
                 productService.update(id, updated);
             } catch (IOException e) {
-                throw new RuntimeException("Failed to save product images", e);
+                throw new FileSystemException("Failed to save product images");
             }
         }
 

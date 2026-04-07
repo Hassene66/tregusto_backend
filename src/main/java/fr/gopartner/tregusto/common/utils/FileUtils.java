@@ -1,5 +1,6 @@
 package fr.gopartner.tregusto.common.utils;
 
+import fr.gopartner.tregusto.common.exception.shared.InvalidArgumentsException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,16 +18,16 @@ public class FileUtils {
 
     public static String saveFile(String baseDir, String category, String entityId, MultipartFile file, long maxFileSize, List<String> allowedExtensions) throws IOException {
         if (file == null || file.isEmpty()) {
-            throw new IllegalArgumentException("File is required");
+            throw new InvalidArgumentsException("File is required");
         }
 
         if (file.getSize() > maxFileSize) {
-            throw new IllegalArgumentException("File size exceeds maximum allowed size");
+            throw new InvalidArgumentsException("File size exceeds maximum allowed size");
         }
 
         String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
         if (extension == null || !allowedExtensions.contains(extension.toLowerCase())) {
-            throw new IllegalArgumentException("File type not allowed: " + extension);
+            throw new InvalidArgumentsException("File type not allowed: " + extension);
         }
 
         Path categoryPath = Paths.get(baseDir, category);
@@ -58,14 +59,14 @@ public class FileUtils {
                 return true;
             }
             Files.walk(dirPath)
-                .sorted((a, b) -> -a.compareTo(b))
-                .forEach(p -> {
-                    try {
-                        Files.deleteIfExists(p);
-                    } catch (IOException e) {
-                        // ignore
-                    }
-                });
+                    .sorted((a, b) -> -a.compareTo(b))
+                    .forEach(p -> {
+                        try {
+                            Files.deleteIfExists(p);
+                        } catch (IOException e) {
+                            // ignore
+                        }
+                    });
             return true;
         } catch (IOException e) {
             return false;

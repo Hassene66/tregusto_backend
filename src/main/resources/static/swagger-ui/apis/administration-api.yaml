@@ -417,10 +417,22 @@ paths:
             type: integer
       requestBody:
         content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: New image file (optional, if not provided keeps existing image)
+                altText:
+                  type: string
+                displayOrder:
+                  type: integer
+                  default: 0
           application/json:
             schema:
               $ref: '#/components/schemas/ProductImageRequest'
-        required: true
       responses:
         '200':
           description: Image updated
@@ -431,7 +443,7 @@ paths:
         '404':
           description: Image not found
       operationId: updateProductImage
-      summary: Update image metadata
+      summary: Update image (metadata and/or file)
     delete:
       tags:
         - product-images
