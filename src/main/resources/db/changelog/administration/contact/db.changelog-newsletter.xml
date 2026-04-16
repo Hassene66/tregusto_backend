@@ -8,7 +8,7 @@
     <!-- =============================== -->
     <!-- Create newsletter subscriptions table -->
     <!-- =============================== -->
-    <changeSet id="newsletter-subscriptions-001" author="Hassene">
+    <changeSet id="001-newsletter-subscriptions" author="Hassene">
         <createTable tableName="newsletter_subscriptions">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>

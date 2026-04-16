@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <!-- ======================================== -->
+    <!--  PRODUCT CATEGORIES -->
+    <!-- ======================================== -->
+    <changeSet id="001-insert-categories" author="Hassene">
+        <insert tableName="categories">
+            <column name="name" value="Pizzas"/>
+            <column name="slug" value="pizzas"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="image_url" value="/img/category/icon/pizzas.png"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Burgers"/>
+            <column name="slug" value="burgers"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="image_url" value="/img/category/icon/burgers.png"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Sandwichs"/>
+            <column name="slug" value="sandwichs"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="image_url" value="/img/category/icon/sandwichs.png"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Boissons"/>
+            <column name="slug" value="boissons"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="image_url" value="/img/category/icon/boissons.png"/>
+        </insert>
+        <insert tableName="categories">
+            <column name="name" value="Desserts"/>
+            <column name="slug" value="desserts"/>
+            <column name="is_active" valueBoolean="true"/>
+            <column name="image_url" value="/img/category/icon/salades.png"/>
+        </insert>
+    </changeSet>
+
+    <!-- ======================================== -->
+    <!-- INGREDIENT CATEGORIES -->
+    <!-- ======================================== -->
+    <changeSet id="002-insert-ingredient-categories" author="Hassene">
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Viande"/>
+        </insert>
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Fromage"/>
+        </insert>
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Legume"/>
+        </insert>
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Sauce"/>
+        </insert>
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Herbe"/>
+        </insert>
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Epice"/>
+        </insert>
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Pain"/>
+        </insert>
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Base"/>
+        </insert>
+        <insert tableName="ingredient_categories">
+            <column name="name" value="Autre"/>
+        </insert>
+    </changeSet>
+
+    <!-- ======================================== -->
+    <!-- INGREDIENTS -->
+    <!-- ======================================== -->
+    <changeSet id="003-insert-ingredients" author="Hassene">
+
+        <!-- Viande (category_id: 1) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Boeuf haché"/>
+            <column name="slug" value="boef-hache"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Poulet grillé"/>
+            <column name="slug" value="poulet-grille"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Jambon"/>
+            <column name="slug" value="jambon"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Viande séchée"/>
+            <column name="slug" value="viande-sechee"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Pepperoni"/>
+            <column name="slug" value="pepperoni"/>
+            <column name="category_id" valueNumeric="1"/>
+        </insert>
+
+        <!-- Fromage (category_id: 2) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Mozzarella"/>
+            <column name="slug" value="mozzarella"/>
+            <column name="category_id" valueNumeric="2"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Cheddar"/>
+            <column name="slug" value="cheddar"/>
+            <column name="category_id" valueNumeric="2"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Parmesan"/>
+            <column name="slug" value="parmesan"/>
+            <column name="category_id" valueNumeric="2"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Gouda"/>
+            <column name="slug" value="gouda"/>
+            <column name="category_id" valueNumeric="2"/>
+        </insert>
+
+        <!-- Legume (category_id: 3) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Laitue"/>
+            <column name="slug" value="laitue"/>
+            <column name="category_id" valueNumeric="3"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Tomate"/>
+            <column name="slug" value="tomate"/>
+            <column name="category_id" valueNumeric="3"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Oignon"/>
+            <column name="slug" value="oignon"/>
+            <column name="category_id" valueNumeric="3"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Cornichons"/>
+            <column name="slug" value="cornichons"/>
+            <column name="category_id" valueNumeric="3"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Poivrons"/>
+            <column name="slug" value="poivrons"/>
+            <column name="category_id" valueNumeric="3"/>
+        </insert>
+
+        <!-- Sauce (category_id: 4) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Sauce tomate"/>
+            <column name="slug" value="sauce-tomate"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Mayonnaise"/>
+            <column name="slug" value="mayonnaise"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Ketchup"/>
+            <column name="slug" value="ketchup"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Moutarde"/>
+            <column name="slug" value="moutarde"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Sauce BBQ"/>
+            <column name="slug" value="sauce-bbq"/>
+            <column name="category_id" valueNumeric="4"/>
+        </insert>
+
+        <!-- Herbe (category_id: 5) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Basilic"/>
+            <column name="slug" value="basilic"/>
+            <column name="category_id" valueNumeric="5"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Origan"/>
+            <column name="slug" value="origan"/>
+            <column name="category_id" valueNumeric="5"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Ciboulette"/>
+            <column name="slug" value="ciboulette"/>
+            <column name="category_id" valueNumeric="5"/>
+        </insert>
+
+        <!-- Epice (category_id: 6) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Paprika"/>
+            <column name="slug" value="paprika"/>
+            <column name="category_id" valueNumeric="6"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Poivre noir"/>
+            <column name="slug" value="poivre-noir"/>
+            <column name="category_id" valueNumeric="6"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Ail en poudre"/>
+            <column name="slug" value="ail-en-poudre"/>
+            <column name="category_id" valueNumeric="6"/>
+        </insert>
+
+        <!-- Pain (category_id: 7) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Pain burger"/>
+            <column name="slug" value="pain-burger"/>
+            <column name="category_id" valueNumeric="7"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Pain à hot-dog"/>
+            <column name="slug" value="pain-a-hot-dog"/>
+            <column name="category_id" valueNumeric="7"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Tortilla"/>
+            <column name="slug" value="tortilla"/>
+            <column name="category_id" valueNumeric="7"/>
+        </insert>
+
+        <!-- Base (category_id: 8) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Pâte à pizza"/>
+            <column name="slug" value="pate-a-pizza"/>
+            <column name="category_id" valueNumeric="8"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Riz"/>
+            <column name="slug" value="riz"/>
+            <column name="category_id" valueNumeric="8"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Salade verte"/>
+            <column name="slug" value="salade-verte"/>
+            <column name="category_id" valueNumeric="8"/>
+        </insert>
+
+        <!-- Autre (category_id: 9) -->
+        <insert tableName="ingredients">
+            <column name="name" value="Œuf"/>
+            <column name="slug" value="oeuf"/>
+            <column name="category_id" valueNumeric="9"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Olives"/>
+            <column name="slug" value="olives"/>
+            <column name="category_id" valueNumeric="9"/>
+        </insert>
+
+        <insert tableName="ingredients">
+            <column name="name" value="Champignons"/>
+            <column name="slug" value="champignons"/>
+            <column name="category_id" valueNumeric="9"/>
+        </insert>
+
+    </changeSet>
+
+</databaseChangeLog>

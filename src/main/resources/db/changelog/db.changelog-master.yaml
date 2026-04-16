@@ -2,8 +2,13 @@ databaseChangeLog:
   - include:
       file: db/changelog/common/db.changelog_event_publication.xml
   - include:
-      file: db/changelog/administration/db.changelog-contact.xml
+      file: db/changelog/administration/contact/db.changelog-contact.xml
   - include:
-      file: db/changelog/administration/db.changelog-newsletter.xml
+      file: db/changelog/administration/contact/db.changelog-newsletter.xml
   - include:
       file: db/changelog/reservation/db.changelog.reservation.xml
+
+  - include:
+      file: db/changelog/administration/menu/db.changelog-product.xml
+  - include:
+      file: db/changelog/administration/menu/db.changelog-seed-menu-data.xml

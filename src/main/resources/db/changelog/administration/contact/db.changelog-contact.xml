@@ -8,7 +8,7 @@
     <!-- =============================== -->
     <!-- Create table to store messages/inquiries -->
     <!-- =============================== -->
-    <changeSet id="contact-requests-table-001" author="Hassene">
+    <changeSet id="001-contact-requests-table" author="Hassene">
         <createTable tableName="contact_requests">
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>

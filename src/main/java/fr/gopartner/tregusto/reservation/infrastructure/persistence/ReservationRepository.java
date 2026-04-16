@@ -1,6 +1,5 @@
 package fr.gopartner.tregusto.reservation.infrastructure.persistence;
 
-import fr.gopartner.tregusto.administration.domain.ContactRequest;
 import fr.gopartner.tregusto.reservation.domain.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

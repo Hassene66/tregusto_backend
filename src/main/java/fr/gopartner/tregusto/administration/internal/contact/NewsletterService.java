@@ -1,6 +1,6 @@
-package fr.gopartner.tregusto.administration.internal;
+package fr.gopartner.tregusto.administration.internal.contact;
 
-import fr.gopartner.tregusto.administration.domain.NewsletterSubscription;
+import fr.gopartner.tregusto.administration.domain.contact.NewsletterSubscription;
 
 public interface NewsletterService {
     NewsletterSubscription subscribe(String email);

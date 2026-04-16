@@ -1,4 +1,4 @@
-package fr.gopartner.tregusto.administration.domain;
+package fr.gopartner.tregusto.administration.domain.contact;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,68 +1,79 @@
 package fr.gopartner.tregusto.common.utils;
 
+import fr.gopartner.tregusto.common.exception.shared.InvalidArgumentsException;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Objects;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.UUID;
 
 public class FileUtils {
 
     private FileUtils() {
     }
 
-    public static String saveFile(String baseDir, String fileName, MultipartFile file) throws IOException {
-
-        // Check if the file's name contains invalid characters'
-        if (fileName == null || fileName.isEmpty()) {
-            return null;
+    public static String saveFile(String baseDir, String category, String entityId, MultipartFile file, long maxFileSize, List<String> allowedExtensions) throws IOException {
+        if (file == null || file.isEmpty()) {
+            throw new InvalidArgumentsException("File is required");
         }
 
-        // Fallback to default directory if baseDir is null or empty
-        baseDir = Objects.requireNonNullElse(baseDir, "uploads/default").trim();
-        if (baseDir.isEmpty()) {
-            baseDir = "uploads/default";
+        if (file.getSize() > maxFileSize) {
+            throw new InvalidArgumentsException("File size exceeds maximum allowed size");
         }
 
-        // Ensure the upload directory exists
-        var uploadDir = Path.of(baseDir).toAbsolutePath();
-        Files.createDirectories(uploadDir);
-
-        // Sanitize filename
-        var cleanedFileName = sanitizeFileName(fileName);
-
-        // Add file extension if necessary
-        if (cleanedFileName.isEmpty() || !cleanedFileName.contains(".")) {
-            cleanedFileName += "." + getExtension(file);
+        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+        if (extension == null || !allowedExtensions.contains(extension.toLowerCase())) {
+            throw new InvalidArgumentsException("File type not allowed: " + extension);
         }
 
-        // Build final path
-        var filePath = uploadDir.resolve(cleanedFileName);
+        Path categoryPath = Paths.get(baseDir, category);
+        if (!Files.exists(categoryPath)) {
+            Files.createDirectories(categoryPath);
+        }
 
-        // Create parent dir if necessary (defensive)
-        Files.createDirectories(filePath.getParent());
+        String filename = entityId + "-" + UUID.randomUUID().toString() + "." + extension;
+        Path filePath = categoryPath.resolve(filename);
 
-        // Transfer file
-        file.transferTo(filePath.toFile());
+        Files.write(filePath, file.getBytes());
 
-        return filePath.toString();
-
+        return category + "/" + filename;
     }
 
-    /**
-     * Extract file extension safely
-     */
-    private static String getExtension(MultipartFile file) {
-        String name = file.getOriginalFilename();
-        if (name == null || !name.contains(".")) {
-            return "";
+    public static boolean deleteFile(String baseDir, String relativePath) {
+        try {
+            Path filePath = Paths.get(baseDir, relativePath);
+            return Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            return false;
         }
-        return name.substring(name.lastIndexOf(".") + 1);
     }
 
-    private static String sanitizeFileName(String filename) {
-        return filename.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+    public static boolean deleteDirectory(String baseDir, String category) {
+        try {
+            Path dirPath = Paths.get(baseDir, category);
+            if (!Files.exists(dirPath)) {
+                return true;
+            }
+            Files.walk(dirPath)
+                    .sorted((a, b) -> -a.compareTo(b))
+                    .forEach(p -> {
+                        try {
+                            Files.deleteIfExists(p);
+                        } catch (IOException e) {
+                            // ignore
+                        }
+                    });
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
+    public static boolean fileExists(String baseDir, String relativePath) {
+        return Files.exists(Paths.get(baseDir, relativePath));
+    }
 }

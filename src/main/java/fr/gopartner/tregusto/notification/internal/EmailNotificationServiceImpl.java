@@ -1,6 +1,6 @@
 package fr.gopartner.tregusto.notification.internal;
 
-import fr.gopartner.tregusto.common.ApplicationConfig;
+import fr.gopartner.tregusto.common.config.ApplicationConfig;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
