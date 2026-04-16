@@ -1,0 +1,439 @@
+openapi: 3.0.3
+info:
+  title: API de Réservation de Tables
+  description: API pour la gestion des réservations de restaurant avec UUID
+  version: 1.0.0
+
+
+tags:
+  - name: Réservations
+    description: Opérations de gestion des réservations de tables
+
+paths:
+  /reservations:
+    post:
+      summary: Créer une nouvelle réservation
+      description: Crée une réservation et génère automatiquement un UUID unique
+      operationId: createReservation
+      tags:
+        - Réservations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationRequest'
+            examples:
+              reservationStandard:
+                summary: Réservation standard
+                value:
+                  email: "client@example.com"
+                  nombrePlaces: 4
+                  date: "2024-12-25"
+                  heure: "19:30"
+      responses:
+        '201':
+          description: Réservation créée avec succès
+          headers:
+            Location:
+              description: URL de la réservation créée
+              schema:
+                type: string
+                example: "/api/v1/reservation/uuid/f47ac10b-58cc-4372-a567-0e02b2c3d479"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationResponse'
+              example:
+                id: 1
+                uuid: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+                email: "client@example.com"
+                nombrePlaces: 4
+                date: "2024-12-25" 
+                heure: "19:30"
+                numeroTable: 5
+                statut: "CONFIRMEE"
+        '400':
+          description: Données invalides
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                emailInvalide:
+                  summary: Email invalide
+                  value:
+                    code: 400
+                    message: "Email invalide"
+                placesInvalides:
+                  summary: Nombre de places invalide
+                  value:
+                    code: 400
+                    message: "Le nombre de places doit être entre 1 et 20"
+                datePassee:
+                  summary: Date passée
+                  value:
+                    code: 400
+                    message: "La date doit être aujourd'hui ou dans le futur"
+
+    get:
+      summary: Lister toutes les réservations
+      description: Retourne la liste de toutes les réservations (avec pagination)
+      operationId: getAllReservations
+      tags:
+        - Réservations
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Numéro de la page
+        - name: size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: Nombre d'éléments par page
+        - name: statut
+          in: query
+          schema:
+            type: string
+            enum: [CONFIRMEE, ANNULEE, PASSEE]
+          description: Filtrer par statut
+      responses:
+        '200':
+          description: Liste des réservations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReservationResponse'
+                  page:
+                    type: integer
+                  size:
+                    type: integer
+                  totalElements:
+                    type: integer
+                  totalPages:
+                    type: integer
+              example:
+                content:
+                  - id: 1
+                    uuid: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+                    email: "client1@example.com"
+                    nombrePlaces: 4
+                    date: "2024-12-25"
+                    heure: "19:30"
+                    statut: "CONFIRMEE"
+                  - id: 2
+                    uuid: "550e8400-e29b-41d4-a716-446655440000"
+                    email: "client2@example.com"
+                    nombrePlaces: 2
+                    date: "2024-12-25"
+                    heure: "20:00"
+                    statut: "CONFIRMEE"
+                page: 0
+                size: 20
+                totalElements: 2
+                totalPages: 1
+
+  /reservations/uuid/{uuid}:
+    get:
+      summary: Récupérer une réservation par son UUID
+      description: Retourne les détails d'une réservation à partir de son UUID unique
+      operationId: getReservationByUuid
+      tags:
+        - Réservations
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+          description: UUID unique de la réservation (généré automatiquement)
+          example: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+      responses:
+        '200':
+          description: Réservation trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationResponse'
+              example:
+                id: 1
+                uuid: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+                email: "client@example.com"
+                nombrePlaces: 4
+                date: "2024-12-25"
+                heure: "19:30"
+                numeroTable: 5
+                statut: "CONFIRMEE"
+        '404':
+          description: Réservation non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                code: 404
+                message: "Réservation non trouvée avec l'UUID: f47ac10b-58cc-4372-a567-0e02b2c3d479"
+
+    put:
+      summary: Modifier une réservation
+      description: Modifie une réservation existante (identifiée par son UUID)
+      operationId: updateReservationByUuid
+      tags:
+        - Réservations
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: UUID de la réservation à modifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReservationRequest'
+      responses:
+        '200':
+          description: Réservation modifiée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationResponse'
+        '400':
+          description: Données invalides
+        '404':
+          description: Réservation non trouvée
+
+    delete:
+      summary: Annuler une réservation
+      description: Change le statut de la réservation à "ANNULEE" (annulation logique)
+      operationId: cancelReservationByUuid
+      tags:
+        - Réservations
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: UUID de la réservation à annuler
+      responses:
+        '200':
+          description: Réservation annulée avec succès
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationResponse'
+              example:
+                id: 1
+                uuid: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+                email: "client@example.com"
+                nombrePlaces: 4
+                date: "2024-12-25"
+                heure: "19:30"
+                statut: "ANNULEE"
+        '404':
+          description: Réservation non trouvée
+
+  /reservations/email/{email}:
+    get:
+      summary: Récupérer les réservations par email
+      description: Retourne toutes les réservations d'un client (identifié par son email)
+      operationId: getReservationsByEmail
+      tags:
+        - Réservations
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+            format: email
+          description: Email du client
+          example: "client@example.com"
+      responses:
+        '200':
+          description: Liste des réservations du client
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReservationResponse'
+
+  /reservations/date/{date}:
+    get:
+      summary: Récupérer les réservations par date
+      description: Retourne toutes les réservations pour une date spécifique
+      operationId: getReservationsByDate
+      tags:
+        - Réservations
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+            format: date
+          description: Date au format YYYY-MM-DD
+          example: "2024-12-25"
+      responses:
+        '200':
+          description: Liste des réservations pour cette date
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReservationResponse'
+
+  /reservations/status/{statut}:
+    get:
+      summary: Récupérer les réservations par statut
+      description: Retourne toutes les réservations avec un statut spécifique
+      operationId: getReservationsByStatus
+      tags:
+        - Réservations
+      parameters:
+        - name: statut
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [CONFIRMEE, ANNULEE, PASSEE]
+          description: Statut des réservations
+      responses:
+        '200':
+          description: Liste des réservations avec ce statut
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReservationResponse'
+
+components:
+  schemas:
+    ReservationRequest:
+      type: object
+      required:
+        - email
+        - nombrePlaces
+        - date
+        - heure
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+          maxLength: 255
+          pattern: '^[A-Za-z0-9+_.-]+@(.+)$'
+          example: "client@example.com"
+          description: Email du client (obligatoire et valide)
+        nombrePlaces:
+          type: integer
+          minimum: 1
+          maximum: 20
+          example: 4
+          description: Nombre de personnes (entre 1 et 20)
+        date:
+          type: string
+          format: date
+          pattern: '^\d{4}-\d{2}-\d{2}$'
+          example: "2024-12-25"
+          description: Date de réservation (doit être aujourd'hui ou dans le futur)
+        heure:
+          type: string
+          pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$'
+          example: "19:30"
+          description: Heure de réservation au format HH:MM (24h)
+
+    ReservationResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+          example: 1
+          description: Identifiant technique interne
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+          pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+          example: "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+          description: UUID unique généré automatiquement (à envoyer au client)
+        email:
+          type: string
+          format: email
+          example: "client@example.com"
+          description: Email du client
+        nombrePlaces:
+          type: integer
+          minimum: 1
+          maximum: 20
+          example: 4
+          description: Nombre de personnes
+        date:
+          type: string
+          format: date
+          example: "2024-12-25"
+          description: Date de réservation
+        heure:
+          type: string
+          pattern: '^([0-1][0-9]|2[0-3]):[0-5][0-9]$'
+          example: "19:30"
+          description: Heure de réservation
+        numeroTable:
+          type: integer
+          nullable: true
+          example: 5
+          description: Numéro de table assigné (peut être null si non assigné)
+        statut:
+          type: string
+          enum:
+            - CONFIRMEE
+            - ANNULEE
+            - PASSEE
+          readOnly: true
+          example: "PASSEE"
+          description: Statut de la réservation (PASSEE par défaut)
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          example: 400
+          description: Code HTTP d'erreur
+        message:
+          type: string
+          example: "L'email est obligatoire"
+          description: Message d'erreur détaillé
+        timestamp:
+          type: string
+          format: date-time
+          example: "2024-12-20T10:30:00Z"
+          description: Horodatage de l'erreur
+        path:
+          type: string
+          example: "/api/v1/reservation"
+          description: Chemin de la requête ayant causé l'erreur

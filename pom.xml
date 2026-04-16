@@ -234,6 +234,35 @@
                             </configOptions>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>reservation-api</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>
+                                ${project.basedir}/src/main/resources/static/swagger-ui/apis/reservation-api.yaml
+                            </inputSpec>
+                            <output>${project.build.directory}/generated-sources/reservation-api</output>
+                            <generatorName>spring</generatorName>
+                            <addCompileSourceRoot>true</addCompileSourceRoot>
+                            <modelNameSuffix>DTO</modelNameSuffix>
+
+                            <configOptions>
+                                <useTags>true</useTags>
+                                <apiPackage>
+                                    fr.gopartner.tregusto.reservation.api.generated
+                                </apiPackage>
+                                <modelPackage>
+                                    fr.gopartner.tregusto.reservation.api.generated
+                                </modelPackage>
+                                <delegatePattern>false</delegatePattern>
+                                <useSpringBoot3>true</useSpringBoot3>
+                                <interfaceOnly>true</interfaceOnly>
+                                <documentationProvider>source</documentationProvider>
+                            </configOptions>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

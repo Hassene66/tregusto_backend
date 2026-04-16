@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="001-create-reservation-table" author="fedi">
+        <comment>Création de la table reservations</comment>
+
+        <createTable tableName="reservations" remarks="Table des réservations de restaurant">
+            <column name="id" type="BIGINT" autoIncrement="true" remarks="Identifiant technique">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_reservations"/>
+            </column>
+
+            <column name="uuid" type="VARCHAR(36)" remarks="UUID unique public">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uk_reservations_uuid"/>
+            </column>
+
+            <column name="email" type="VARCHAR(255)" remarks="Email du client">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="nombre_places" type="INT" remarks="Nombre de personnes">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="date_reservation" type="DATE" remarks="Date de réservation">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="heure_reservation" type="TIME" remarks="Heure de réservation">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="table_assigned" type="INT" remarks="Numéro de table">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="statut" type="VARCHAR(20)" defaultValue="PASSEE" remarks="Statut">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <rollback>
+            <dropTable tableName="reservations"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
