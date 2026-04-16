@@ -22,7 +22,7 @@ public class ReservationController implements  ApiV1Reservation,RservationsApi {
 
     @Override
     public ResponseEntity<ReservationResponseDTO> createReservation(ReservationRequestDTO reservationRequestDTO) {
-        log.info("Requête de création de réservation reçue pour l'email: {}", reservationRequestDTO.getEmail());
+        log.info("Création de réservation reçue pour l'email: {} ", reservationRequestDTO.getEmail());
 
         ReservationResponseDTO response = reservationService.createReservation(reservationRequestDTO);
 
