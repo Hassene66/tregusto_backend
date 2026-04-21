@@ -2,7 +2,7 @@ package fr.gopartner.tregusto.administration.internal.contact;
 
 import fr.gopartner.tregusto.administration.api.events.ContactRequestCreatedEvent;
 import fr.gopartner.tregusto.administration.domain.contact.ContactRequest;
-import fr.gopartner.tregusto.administration.infrastructure.persistence.ContactRequestRepository;
+import fr.gopartner.tregusto.administration.infrastructure.persistence.contact.ContactRequestRepository;
 import fr.gopartner.tregusto.administration.spi.CaptchaService;
 import fr.gopartner.tregusto.common.exception.shared.InvalidCaptchaException;
 import jakarta.transaction.Transactional;

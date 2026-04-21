@@ -58,6 +58,53 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
         sendHtmlEmail(email, subject, "newsletter-confirmation", variables);
     }
 
+    @Override
+    public void sendReservationConfirmation(String recipientEmail, String recipientName, String reservationId,
+                                            String reservationDate, String reservationTime,
+                                            int numberOfGuests, String specialRequest) throws MessagingException {
+
+        Map<String, Object> variables = Map.of(
+                "recipientName", recipientName,
+                "reservationId", reservationId,
+                "reservationDate", reservationDate,
+                "reservationTime", reservationTime,
+                "numberOfGuests", numberOfGuests,
+                "specialRequest", specialRequest != null ? specialRequest : "",
+                "restaurantName", applicationConfig.getName(),
+                "appName", applicationConfig.getName(),
+                "appUrl", applicationConfig.getPublicUrl()
+        );
+
+        String subject = String.format("Confirmation de votre réservation – %s – %s", applicationConfig.getName(), reservationDate);
+
+        sendHtmlEmail(recipientEmail, subject, "restaurant-booking-confirmation", variables);
+    }
+
+    @Override
+    public void sendReservationNotificationToManagers(String reservationId, String reservationDate, String reservationTime,
+                                                      int numberOfGuests, String customerName, String customerEmail,
+                                                      String phoneNumber, String specialRequest) throws MessagingException {
+
+        Map<String, Object> variables = Map.of(
+                "reservationId", reservationId,
+                "reservationDate", reservationDate,
+                "reservationTime", reservationTime,
+                "numberOfGuests", numberOfGuests,
+                "customerName", customerName,
+                "customerEmail", customerEmail,
+                "phoneNumber", phoneNumber != null ? phoneNumber : "",
+                "specialRequest", specialRequest != null ? specialRequest : "",
+                "appName", applicationConfig.getName(),
+                "appUrl", applicationConfig.getPublicUrl()
+        );
+
+        String subject = String.format("Nouvelle réservation – %s – %s", applicationConfig.getName(), reservationDate);
+
+        for (String managerEmail : applicationConfig.getRestaurantManagers().getEmails()) {
+            sendHtmlEmail(managerEmail, subject, "restaurant-booking-notification", variables);
+        }
+    }
+
 
     private void sendHtmlEmail(String to, String subject, String templateName, Map<String, Object> variables) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();

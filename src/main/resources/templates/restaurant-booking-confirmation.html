@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      style="height: 100% !important; width: 100% !important; margin: 0; padding: 0; background-color: #fbeaea;">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no"/>
+    <meta name="x-apple-disable-message-reformatting"/>
+    <link href="https://fonts.googleapis.com/css?family=DM+Sans:ital,wght@0,400;0,700;0,800" rel="stylesheet"/>
+    <title th:text="${subject}">Confirmation de votre réservation</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100% !important;
+            width: 100% !important;
+            -webkit-font-smoothing: antialiased;
+            background-color: #fbeaea;
+        }
+
+        body {
+            font-family: 'DM Sans', Arial, Helvetica, sans-serif;
+            color: #cc3333;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        img {
+            border: 0;
+            outline: 0;
+            -ms-interpolation-mode: bicubic;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .divider {
+            height: 2px;
+            background-color: #cc3333;
+            width: 100%;
+        }
+
+        .footer-link, .app-button {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            background-color: #cc3333;
+            padding: 12px 24px;
+            border-radius: 6px;
+            margin-top: 16px;
+        }
+
+        .info-box {
+            background-color: #f9eaea;
+            border: 1px solid #fccccc;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin: 20px 0;
+        }
+
+        .info-row {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .info-label {
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Responsive Styles */
+        @media screen and (max-width: 620px) {
+            .container {
+                width: 90% !important;
+                padding: 15px !important;
+            }
+
+            .card td {
+                padding: 16px !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<table width="100%" style="table-layout:fixed; padding:0; margin:0;">
+    <tr>
+        <td align="center">
+            <table class="container" width="600" style="max-width:600px; width:100%;">
+                <tr>
+                    <td style="padding:30px 0;">
+                        <!-- Top Divider -->
+                        <div class="divider" style="margin-bottom:16px;"></div>
+
+                        <!-- Main Card -->
+                        <table width="100%" class="card">
+                            <tr>
+                                <td style="padding:24px 32px;">
+
+                                    <div style="font-size:14px; line-height:22px; color:#555;">
+                                        Bonjour <strong th:text="${recipientName}">John Doe</strong>,<br/><br/>
+                                        Nous vous remercions pour votre réservation au <strong
+                                            th:text="${restaurantName}">Nom du Restaurant</strong>.<br/>
+                                        Votre réservation a bien été confirmée et nous serons ravis de vous accueillir.
+                                    </div>
+
+                                    <!-- Reservation Details -->
+                                    <div class="info-box">
+                                        <p style="margin:0 0 12px 0; color:#555;">
+                                            <strong>Détails de votre réservation :</strong>
+                                        </p>
+
+                                        <div class="info-row">
+                                            <span class="info-label">Date :</span> <span th:text="${reservationDate}">Date</span>
+                                        </div>
+
+                                        <div class="info-row">
+                                            <span class="info-label">Heure :</span> <span th:text="${reservationTime}">Heure</span>
+                                        </div>
+
+                                        <div class="info-row">
+                                            <span class="info-label">Nombre de personnes :</span> <span
+                                                th:text="${numberOfGuests}">Nombre de couverts</span>
+                                        </div>
+
+                                        <div class="info-row">
+                                            <span class="info-label">Numéro de réservation :</span> <span
+                                                th:text="${reservationId}">Numéro de réservation</span>
+                                        </div>
+
+                                        <div th:if="${specialRequest}" class="info-row"
+                                             style="margin-top:12px; padding-top:12px; border-top:1px solid #fccccc;">
+                                            <span class="info-label">Demande spéciale :</span><br/>
+                                            <span th:text="${specialRequest}">Commentaire (si applicable)</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Important Information -->
+                                    <div style="font-size:14px; line-height:22px; color:#555; margin-top:20px;">
+                                        <strong>Informations importantes :</strong><br/>
+                                        • Pour toute modification ou annulation, vous trouverez les informations de
+                                        contact sur notre site web.<br/>
+                                        • Merci de respecter l'heure de votre réservation. En cas de retard, nous vous
+                                        recommandons de nous prévenir.
+                                    </div>
+
+                                    <!-- Closing Message -->
+                                    <div style="font-size:14px; line-height:22px; color:#555; margin-top:20px;">
+                                        Nous vous remercions pour votre confiance et avons hâte de vous accueillir très
+                                        prochainement.
+                                    </div>
+
+                                    <!-- Footer -->
+                                    <div style="padding:20px 0 0 0; text-align:center; border-top:1px solid #fccccc; background-color:#ffffff; margin-top:16px;">
+                                        <p style="margin:0; font-size:13px; color:#777;">
+                                            <a th:href="${appUrl}" th:text="'Accéder à ' + ${appName}"
+                                               class="footer-link"></a>
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Bottom Divider -->
+                        <div class="divider" style="margin-top:16px;"></div>
+
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

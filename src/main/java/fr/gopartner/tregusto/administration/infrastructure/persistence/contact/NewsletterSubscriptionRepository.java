@@ -1,4 +1,4 @@
-package fr.gopartner.tregusto.administration.infrastructure.persistence;
+package fr.gopartner.tregusto.administration.infrastructure.persistence.contact;
 
 import fr.gopartner.tregusto.administration.domain.contact.NewsletterSubscription;
 import org.springframework.data.jpa.repository.JpaRepository;

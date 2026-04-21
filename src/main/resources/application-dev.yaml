@@ -16,6 +16,10 @@ application:
     public-url: "http://tregusto.dev.gopartner.fr"
     newsletter:
       confirmation-url: "http://localhost:3000/newsletter/confirm"
+    restaurant-managers:
+      emails:
+        - manager1@yopmail.com
+        - manager2@yopmail.com
   keycloak:
     base-url: ${keycloak_base_url}
     realm: ${keycloak_realm}

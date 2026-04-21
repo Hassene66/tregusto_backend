@@ -17,10 +17,16 @@ public class ApplicationConfig {
     private String publicUrl;
     private List<String> allowedOrigins = new ArrayList<>();
     private Newsletter newsletter;
+    private RestaurantManagers restaurantManagers;
     
     @Data
     public static class Newsletter {
         private String confirmationUrl;
+    }
+    
+    @Data
+    public static class RestaurantManagers {
+        private List<String> emails = new ArrayList<>();
     }
 }
 

@@ -3,7 +3,7 @@ package fr.gopartner.tregusto.administration.internal.contact;
 import fr.gopartner.tregusto.administration.api.events.NewsletterSubscriptionCreatedEvent;
 import fr.gopartner.tregusto.administration.api.events.NewsletterSubscriptionConfirmedEvent;
 import fr.gopartner.tregusto.administration.domain.contact.NewsletterSubscription;
-import fr.gopartner.tregusto.administration.infrastructure.persistence.NewsletterSubscriptionRepository;
+import fr.gopartner.tregusto.administration.infrastructure.persistence.contact.NewsletterSubscriptionRepository;
 import fr.gopartner.tregusto.common.exception.shared.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

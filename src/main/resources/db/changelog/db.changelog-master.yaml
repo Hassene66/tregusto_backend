@@ -7,8 +7,3 @@ databaseChangeLog:
       file: db/changelog/administration/contact/db.changelog-newsletter.xml
   - include:
       file: db/changelog/reservation/db.changelog.reservation.xml
-
-  - include:
-      file: db/changelog/administration/menu/db.changelog-product.xml
-  - include:
-      file: db/changelog/administration/menu/db.changelog-seed-menu-data.xml
